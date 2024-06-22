@@ -1,0 +1,277 @@
+<h1 id="checking-the-order-of-a-matrix-group">Checking the order of a
+matrix group</h1>
+<h2 id="introduction">Introduction</h2>
+<p>We are given a set
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>g</mi><mn>1</mn></msub><mo>,</mo><msub><mi>g</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>g</mi><mi>n</mi></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S=\{g_1, g_2,\ldots,g_n\}</annotation></semantics></math>
+of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>×</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m\times m</annotation></semantics></math>-matrices
+which generate a faithful
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>-dimensional
+representation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
+of a finite group G. Our goals are:</p>
+<ul>
+<li>Compute the order of the group.</li>
+<li>Determine whether the representation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
+defined by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+is reducible or irreducible.</li>
+</ul>
+<p>Assuming that the order of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>
+is not too large, we can solve both problems by explicitly computing all
+elements of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>G</mi><annotation encoding="application/x-tex">G</annotation></semantics></math>
+in the defining representation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>.
+The number of found elements is the order of the group.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
+is irreducible if and only if
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>∑</mo><mrow><mi>g</mi><mo>∈</mo><mi>G</mi></mrow></munder><msup><mrow><mo stretchy="true" form="prefix">|</mo><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">r</mi></mrow><mspace width="0.167em"></mspace><mi>D</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>g</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mn>2</mn></msup><mo>=</mo><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">d</mi></mrow><mspace width="0.167em"></mspace><mi>G</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">\sum_{g\in G}|\mathrm{Tr}\,D(g)|^2=\mathrm{ord}\,G.</annotation></semantics></math></p>
+<h2
+id="specification-for-computationally-solving-the-problem">Specification
+for computationally solving the problem</h2>
+<h3 id="module-complex-numbers">Module complex numbers</h3>
+<p>We assume that there is a data structure which can store a real
+number (or a floating point approximation to it). If the programming
+language does not provide complex numbers:</p>
+<ul>
+<li>ComplexNumber
+<ul>
+<li>Tuple of two real numbers:
+<ul>
+<li>RealNumber Re</li>
+<li>RealNumber Im</li>
+</ul></li>
+<li>In the following we use the notation (Re, Im).</li>
+</ul></li>
+<li>ComplexNumber Add(ComplexNumber a, ComplexNumber b):
+<ul>
+<li>result = (a.Re + b.Re, a.Im + b.Im).</li>
+<li>In the following we use the notation result = a + b.</li>
+<li>Unit tests for implementation:
+<ul>
+<li>(3, 4) + (-8, 13) –&gt; (-5, 17)</li>
+<li>(0, -1) + (0, 1) –&gt; (0, 0)</li>
+<li>(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mn>2</mn></msqrt><annotation encoding="application/x-tex">\sqrt{2}</annotation></semantics></math>,
+1.5) + (1, -0.5) –&gt;
+(1+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mn>2</mn></msqrt><mo>,</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\sqrt{2}, 1.0</annotation></semantics></math>)</li>
+</ul></li>
+</ul></li>
+<li>ComplexNumber Subtract(ComplexNumber a, ComplexNumber b):
+<ul>
+<li>result = (a.Re - b.Re, a.Im - b.Im).</li>
+<li>In the following we use the notation result = a - b.</li>
+</ul></li>
+<li>ComplexNumber Multiply(ComplexNumber a, ComplexNumber b):
+<ul>
+<li>result = (a.Re * b.Re - a.Im * b.Im, a.Re * b.Im + a.Im *
+b.Re).</li>
+<li>In the following we use the notation result = a * b.</li>
+<li>Unit tests for implementation:
+<ul>
+<li>(3, 4) * (0, 0) –&gt; (0, 0)</li>
+<li>(-1, 8) * (2, -1) –&gt; (6, 17)</li>
+<li>(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mn>2</mn></msqrt><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\sqrt{2}, 1</annotation></semantics></math>)
+*
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mn>3</mn></msqrt><annotation encoding="application/x-tex">\sqrt{3}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mn>2</mn></msqrt><annotation encoding="application/x-tex">\sqrt{2}</annotation></semantics></math>)
+–&gt;
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mn>6</mn></msqrt><mo>−</mo><msqrt><mn>2</mn></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{6}-\sqrt{2}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><msqrt><mn>3</mn></msqrt></mrow><annotation encoding="application/x-tex">2+\sqrt{3}</annotation></semantics></math>)</li>
+</ul></li>
+</ul></li>
+<li>RealNumber AbsoluteValue(ComplexNumber a):
+<ul>
+<li>result =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mrow><msup><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">e</mi></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">I</mi><mi mathvariant="normal">m</mi></mrow><mn>2</mn></msup></mrow></msqrt><annotation encoding="application/x-tex">\sqrt{\mathrm{a.Re}^2 + \mathrm{a.Im}^2}</annotation></semantics></math>.</li>
+<li>In the following we use the notation result =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">|</mo><mi>a</mi><mo stretchy="true" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">|a|</annotation></semantics></math>.</li>
+<li>Unit tests for implementation:
+<ul>
+<li>|(1,1)| –&gt;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mn>2</mn></msqrt><annotation encoding="application/x-tex">\sqrt{2}</annotation></semantics></math></li>
+<li>|(0,-1)| –&gt; 1</li>
+<li>|(3,-4)| –&gt; 5</li>
+<li>|(1/2,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><msqrt><mn>3</mn></msqrt><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">-\sqrt{3}/2</annotation></semantics></math>)|
+–&gt; 1</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="module-matrices">Module matrices</h3>
+<p>If programming the language does not provide matrices:</p>
+<ul>
+<li>record SquareMatrix:
+<ul>
+<li>Stores the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>m</mi><mn>2</mn></msup><annotation encoding="application/x-tex">m^2</annotation></semantics></math>
+elements of a complex
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>×</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m\times m</annotation></semantics></math>-matrix.</li>
+<li>Methods
+<ul>
+<li>ComplexNumber GetElement(index i, index j). In the following we use
+the notation value =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">A_{ij}</annotation></semantics></math>.</li>
+<li>SetElement(index i, index j, ComplexNumber value). In the following
+we use the notation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">A_{ij}</annotation></semantics></math>
+= value.</li>
+<li>The indices i, j above denote the row and column indices of the
+matrix, so they can assume
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+different values.</li>
+</ul></li>
+</ul></li>
+<li>Bool AreNumericallyEqual(SquareMatrix A, SquareMatrix B):
+<ul>
+<li>If for all index pairs (i,j):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>B</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="true" form="postfix">|</mo></mrow><mo>&lt;</mo><mn>1.0</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>9</mn></mrow></msup></mrow><annotation encoding="application/x-tex">|A_{ij}-B_{ij}| &lt; 1.0\times 10^{-9}</annotation></semantics></math>
+–&gt; true; else: false</li>
+<li>Unit tests for implementation:
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mn>8</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A = \left(\begin{matrix}(1,1) &amp; (-8, 0)\\ (0,0) &amp; (2,3)\end{matrix}\right)</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi>−</mi><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mi>−</mi><mn>5</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">B = \left(\begin{matrix}(0,-1) &amp; (0, 0)\\ (1,-5) &amp; (2,3)\end{matrix}\right)</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mn>8</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mi>−</mi><mn>5</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mo>,</mo><mn>6</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">C = \left(\begin{matrix}(1,0) &amp; (-8, 0)\\ (1,-5) &amp; (4,6)\end{matrix}\right)</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mn>7</mn><mo>,</mo><mn>39</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mn>16</mn><mo>,</mo><mi>−</mi><mn>24</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mn>17</mn><mo>,</mo><mi>−</mi><mn>7</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mn>5</mn><mo>,</mo><mn>12</mn><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">D = \left(\begin{matrix}(-7,39) &amp; (-16, -24)\\ (17,-7) &amp; (-5,12)\end{matrix}\right)</annotation></semantics></math></li>
+<li>For all X in {A, B, C, D}: AreNumericallyEqual(X, X) –&gt; true</li>
+<li>AreNumericallyEqual(A, B) –&gt; false</li>
+<li>AreNumericallyEqual(A, C) –&gt; false</li>
+</ul></li>
+</ul></li>
+<li>SquareMatrix Add(SquareMatrix A, SquareMatrix B):
+<ul>
+<li>For all index pairs (i,j):
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mtext mathvariant="normal">result</mtext><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\text{result}_{ij}</annotation></semantics></math>
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>A</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">A_{ij}</annotation></semantics></math>
++
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>B</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">B_{ij}</annotation></semantics></math></li>
+</ul></li>
+<li>In the following we use the notation result =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>+</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A + B</annotation></semantics></math>.</li>
+<li>Unit tests for implementation:
+<ul>
+<li>AreNumericallyEqual(A+B, C) –&gt; true</li>
+<li>AreNumericallyEqual(A+B, D) –&gt; false</li>
+</ul></li>
+</ul></li>
+<li>SquareMatrix Multiply(SquareMatrix A, SquareMatrix B):
+<ul>
+<li>For all index pairs (i,j):
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">t</mi></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\mathrm{result}_{ij}</annotation></semantics></math>
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mi>k</mi></msub><msub><mi>A</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>*</mo><msub><mi>B</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{k} A_{ik}*B_{kj}</annotation></semantics></math>.</li>
+<li>The sum in the above equation uses the addition of complex
+numbers.</li>
+</ul></li>
+<li>In the following we use the notation result = A * B.</li>
+<li>Unit tests for implementation:
+<ul>
+<li>AreNumericallyEqual(A*B, C) –&gt; false</li>
+<li>AreNumericallyEqual(A*B, D) –&gt; true</li>
+</ul></li>
+</ul></li>
+<li>ComplexNumber Trace(SquareMatrix A):
+<ul>
+<li>result =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∑</mo><mi>i</mi></msub><msub><mi>A</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sum_{i} A_{ii}</annotation></semantics></math>.</li>
+<li>In the following we use the notation result = Tr(A).</li>
+<li>Unit tests for implementation:
+<ul>
+<li>Tr(A) –&gt; (3,4)</li>
+<li>Tr(B) –&gt; (2,2)</li>
+<li>Tr(C) –&gt; (5,6)</li>
+<li>Tr(D) –&gt; (-12,51)</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="main-program">Main Program</h3>
+<ul>
+<li>Start of program: Given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>g</mi><mn>1</mn></msub><mo>,</mo><msub><mi>g</mi><mn>2</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>g</mi><mi>n</mi></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S=\{g_1, g_2,\ldots,g_n\}</annotation></semantics></math>.
+The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mi>i</mi></msub><annotation encoding="application/x-tex">g_i</annotation></semantics></math>
+are complex
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>×</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">m\times m</annotation></semantics></math>-matrices.</li>
+<li>List L of known group elements: L = S.</li>
+<li>We now construct the whole group by multiplication of each group
+element with any other element. How to do this is described in the
+following.</li>
+<li>Bool IsIn(ComplexSquareMatrix A, L):
+<ul>
+<li>For each B in L:
+<ul>
+<li>If AreNumericallyEqual(A, B): return true</li>
+</ul></li>
+<li>return false</li>
+<li>In the following we will use the notation result =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∈</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">A\in L</annotation></semantics></math></li>
+</ul></li>
+<li>i,j = 1.</li>
+<li>While(i&lt;= Number of elements of L):
+<ul>
+<li>While(j&lt;= Number of elements of L):
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><msub><mi>L</mi><mi>i</mi></msub><mo>*</mo><msub><mi>L</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">A = L_i * L_j</annotation></semantics></math></li>
+<li>If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∉</mo><mi>L</mi></mrow><annotation encoding="application/x-tex">A\not\in L</annotation></semantics></math>:
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+is a new group element. –&gt; Add it to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mi>L</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>A</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">L = L \cup \{A\}</annotation></semantics></math>.</li>
+</ul></li>
+<li>j = j+1</li>
+</ul></li>
+<li>i = i+1</li>
+</ul></li>
+<li>L contains all group elements.</li>
+<li>ord = Number of elements of L.</li>
+<li>Bool isIrreducible =
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mo>∑</mo><mi>i</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mi>T</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>L</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">|</mo><msup><mi></mi><mn>2</mn></msup><mo>−</mo><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">d</mi></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mo>≤</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>9</mn></mrow></msup></mrow><annotation encoding="application/x-tex">|\sum_i |Tr(L_i)|^2 - \mathrm{ord}| \leq 10^{-9}</annotation></semantics></math>).</li>
+<li>Display: The order of the group is {ord}.</li>
+<li>Display: The representation is irreducible: {isIrreducible}.</li>
+<li>Unit tests for implementation:
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>1</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_1 = \left(\begin{matrix}0 &amp; 1 &amp; 0\\ 0 &amp; 0 &amp; 1\\1 &amp; 0 &amp; 0\end{matrix}\right)</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">1 = (1,0)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">0 = (0,0)</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>2</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>ω</mi></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><msup><mi>ω</mi><mn>2</mn></msup></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_2 = \left(\begin{matrix}1 &amp; 0 &amp; 0\\ 0 &amp; \omega &amp; 0\\0 &amp; 0 &amp; \omega^2\end{matrix}\right)</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>i</mi><mi>/</mi><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>cos</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>/</mi><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mo>sin</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>/</mi><mn>3</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\omega = \exp(2\pi i/3) = (\cos(2\pi/3), \sin(2\pi/3))</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>g</mi><mn>1</mn></msub><mo>,</mo><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S = \{g_1, g_2\}</annotation></semantics></math>
+–&gt; Order = 27, Irreducible: true.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>3</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><msup><mi>η</mi><mn>2</mn></msup></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>η</mi></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_3 = \left(\begin{matrix}0 &amp; 0 &amp; 1\\ 0 &amp; \eta^2 &amp; 0\\\eta &amp; 0 &amp; 0\end{matrix}\right)</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>i</mi><mi>/</mi><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>cos</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>/</mi><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mo>sin</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>/</mi><mn>4</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\eta = \exp(2\pi i/4) = (\cos(2\pi/4), \sin(2\pi/4))</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>4</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><msup><mi>η</mi><mn>3</mn></msup></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><msup><mi>η</mi><mn>2</mn></msup></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_4 = \left(\begin{matrix}0 &amp; \eta^3 &amp; 0\\ 1 &amp; 0 &amp; 0\\0 &amp; 0 &amp; \eta^2\end{matrix}\right)</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>g</mi><mn>3</mn></msub><mo>,</mo><msub><mi>g</mi><mn>4</mn></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S = \{g_3, g_4\}</annotation></semantics></math>
+–&gt; Order = 192, Irreducible: true.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>5</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_5 = \left(\begin{matrix}1 &amp; 0\\ 0 &amp; -1\end{matrix}\right)</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mn>1</mn><mo>,</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">-1 = (-1,0)</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>6</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_6 = \left(\begin{matrix}-1 &amp; 0\\ 0 &amp; 1\end{matrix}\right)</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>g</mi><mn>5</mn></msub><mo>,</mo><msub><mi>g</mi><mn>6</mn></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S = \{g_5, g_6\}</annotation></semantics></math>
+–&gt; Order = 4, Irreducible: false.</li>
+</ul></li>
+</ul>
+<h3 id="call-of-main-program-on-an-example">Call of main program on an
+example</h3>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>7</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>α</mi></mtd><mtd columnalign="center" style="text-align: center"><mi>α</mi></mtd><mtd columnalign="center" style="text-align: center"><mi>α</mi></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>α</mi></mtd><mtd columnalign="center" style="text-align: center"><mi>α</mi><mo>*</mo><mi>ω</mi></mtd><mtd columnalign="center" style="text-align: center"><mi>α</mi><mo>*</mo><msup><mi>ω</mi><mn>2</mn></msup></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mi>α</mi></mtd><mtd columnalign="center" style="text-align: center"><mi>α</mi><mo>*</mo><msup><mi>ω</mi><mn>2</mn></msup></mtd><mtd columnalign="center" style="text-align: center"><mi>α</mi><mo>*</mo><mi>ω</mi></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_7 = \left(\begin{matrix}\alpha &amp; \alpha &amp; \alpha\\ \alpha &amp; \alpha*\omega &amp; \alpha*\omega^2\\\alpha &amp; \alpha*\omega^2 &amp; \alpha*\omega\end{matrix}\right)</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mi>−</mi><mi>i</mi><mi>/</mi><msqrt><mn>3</mn></msqrt><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi>−</mi><mn>1</mn><mi>/</mi><msqrt><mn>3</mn></msqrt><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha=-i/\sqrt{3}=(0,-1/\sqrt{3})</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mn>8</mn></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>ϵ</mi></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>ϵ</mi></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>ϵ</mi><mi>ω</mi></mtd></mtr></mtable><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">g_8 = \left(\begin{matrix}\epsilon &amp; 0 &amp; 0\\ 0 &amp; \epsilon &amp; 0\\0 &amp; 0 &amp; \epsilon\omega\end{matrix}\right)</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mi>π</mi><mi>i</mi><mi>/</mi><mn>9</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>cos</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mi>π</mi><mi>/</mi><mn>9</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mo>sin</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>4</mn><mi>π</mi><mi>/</mi><mn>9</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\epsilon = \exp(4\pi i/9) = (\cos(4\pi/9), \sin(4\pi/9))</annotation></semantics></math></li>
+<li>Compute the order and irreducibility property of the group generated
+by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>g</mi><mn>1</mn></msub><mo>,</mo><msub><mi>g</mi><mn>2</mn></msub><mo>,</mo><msub><mi>g</mi><mn>7</mn></msub><mo>,</mo><msub><mi>g</mi><mn>8</mn></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S=\{g_1, g_2, g_7, g_8\}</annotation></semantics></math>.</li>
+<li>Measure the time needed for the computation and display it.</li>
+</ul>

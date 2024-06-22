@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Arial, sans-serif; /* Use a sans-serif font */
+}
+.title {
+  margin-bottom: 2em;
+}
+.menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.menu-item {
+  color: gray;
+  display: block;
+  margin: 5px 0;
+  padding: 10px;
+  text-decoration: none;
+  width: 100%;
+  transition: background-color 0.5s ease;
+}
+.menu-item:hover {
+  color: white;
+  background-color: purple;
+}
+.menu-item:active,
+.menu-item.active {
+  color: white !important;
+  background-color: blue !important;
+}
+.content {
+  margin-left: 50px;
+  max-width: 70%;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: lightgray; /* Add a background color to the footer */
+}
+</style>
+</head>
+<body>
+<div class="title">
+  <h3>Patrick Ludl</h3>
+</div>
+<div class="container">
+  <div class="menu">
+    <a href="index.html" class="menu-item active">Home</a>
+    <a href="research.html" class="menu-item">Research</a>
+    <a href="publications_applied.html" class="menu-item">Publications</a>
+    <a href="teaching.html" class="menu-item">Teaching Resources</a>
+    <a href="talks.html" class="menu-item">Talks</a>
+	<a href="software.html" class="menu-item">Software</a>
+    <a href="interests.html" class="menu-item">Other Interests</a>
+  </div>
+  <div class="content">
+    <h4>Welcome to my website!</h4>
+	Here you can find information on
+	<ul>
+	    <li>my <a href="research.html">research</a> in applied and fundamental science,</li>
+		<li>my <a href="publications_applied.html">publications</a> and <a href="talks.html">talks,</a></li>
+		<li><a href="teaching.html">resources for teaching,</a></li>
+		<li><a href="software.html">software</a></li>
+		<li>and on some of my <a href="interests.html">interests</a> beyond research</li>
+	</ul>
+  </div>
+</div>
+<div class="footer">
+    Patrick Ludl's website
+</div>
+</body>
+</html>

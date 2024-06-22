@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Arial, sans-serif; /* Use a sans-serif font */
+}
+.title {
+  margin-bottom: 2em;
+}
+.menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.menu-item {
+  color: gray;
+  display: block;
+  margin: 5px 0;
+  padding: 10px;
+  text-decoration: none;
+  width: 100%;
+  transition: background-color 0.5s ease;
+}
+.menu-item:hover {
+  color: white;
+  background-color: purple;
+}
+.menu-item:active,
+.menu-item.active {
+  color: white !important;
+  background-color: blue !important;
+}
+.content {
+  margin-left: 50px;
+  max-width: 70%;
+}
+.contentsubsection {
+  margin-left: 80px;
+  max-width: 70%;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: lightgray; /* Add a background color to the footer */
+}
+</style>
+</head>
+<body>
+<div class="title">
+  <h3>Patrick Ludl</h3>
+</div>
+<div class="container">
+  <div class="menu">
+    <a href="index.html" class="menu-item">Home</a>
+    <a href="research.html" class="menu-item active">Research</a>
+    <a href="publications_applied.html" class="menu-item">Publications</a>
+    <a href="teaching.html" class="menu-item">Teaching Resources</a>
+    <a href="talks.html" class="menu-item">Talks</a>
+	<a href="software.html" class="menu-item">Software</a>
+    <a href="interests.html" class="menu-item">Other Interests</a>
+  </div>
+  <div class="content">
+      <div class="container">
+		  <div class="menu">
+			<a href="research.html" class="menu-item active">Multicriteria Optimization</a>
+			<a href="research_ai.html" class="menu-item">Artificial Intelligence</a>
+			<a href="research_mathematics.html" class="menu-item">Applied Mathematics</a>
+			<a href="research_neutrino_physics.html" class="menu-item">Neutrino Physics</a>
+			<a href="research_finite_groups.html" class="menu-item">Finite groups</a>
+		  </div>
+		  <div class="contentsubsection">
+				<h4>Multicriteria Optimization in Process Industry</h4>
+			    The typical "textbook" <span style="color:#800080;">optimization problem</span>
+				looks as follows:
+				<p style="color:blue">
+				<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mo>min</mo><mrow><mi>x</mi><mo>∈</mo><mi>D</mi></mrow></munder><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="1.0em"></mspace><mtext mathvariant="normal">s.t.</mtext><mspace width="1.0em"></mspace><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>≥</mo><mn>0</mn><mo>, </mo><mi>h</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mn>0</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">\min_{x\in D} f(x) \quad \text{s.t.}\quad g(x)\geq 0, h(x)=0.</annotation></semantics></math>
+				</p>
+				I.e. we minimize some function f over a domain D under the constraints
+				<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>≥</mo><mi>0</mi><mi></mi></mrow><annotation encoding="application/x-tex">g(x)>=0</annotation></semantics></math>
+				and
+				<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>0</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">h(x)=0.</annotation></semantics></math>
+				In the case of continuous optimization the domain has the form
+				<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>⊂</mo><msup><mi>ℝ</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">D\subset \mathbb{R}^n</annotation></semantics></math>.
+				For mixed-integer optimization problems
+				<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>⊂</mo><msup><mi>ℝ</mi><mi>n</mi></msup><mo>×</mo><msup><mi>ℤ</mi><mi>m</mi></msup></mrow><annotation encoding="application/x-tex">D\subset \mathbb{R}^n \times \mathbb{Z}^m</annotation></semantics></math> and some (or all) of the optimization variables x are integers.
+				This type of optimization problems are encountered almost everywhere.
+				Most real-world optimization problems, however, are much more complicated in the sense
+				that there is not "the one" goal to optimize (in the example above this was "minimize f").
+				On the contrary, in most <span style="color:green">real-world problems</span> there are several <span style="color:green">conflicting objectives</span>. For example, in a chemical production process there may be the following objectives:
+				<ul>
+				    <li><strong><span style="color:purple">maximize product quality,</span></strong></li>
+					<li><strong><span style="color:purple">minimize production cost,</span></strong></li>
+					<li><strong><span style="color:purple">minimize CO<sub>2</sub> footprint,</span></strong></li>
+					<li><strong><span style="color:purple">minimize use of toxic substances,</span></strong></li>
+					<li><strong><span style="color:purple">maximize capacity of the production plant,...</span></strong></li>
+				</ul>
+				We <span style="color:blue">want to reach all of these goals at the same time.</span>
+				The described problem therefore is called a <span style="color:purple"> Multicriteria Optimization (MCO)</span> problem. The most important difference to single objective optimization problems is that the different goals are usually in conflict with each other. For example, usually higher product quality will require higher production cost. But if we have multiple conflicting objectives, what is the "best" solution then?
+				<br/>
+				In fact, for MCO problems, there usually is no best solution. Let uns convince ourselves of this
+				by means of an example. Suppose we have a plant producing a product. We want to
+				<ul>
+				  <li>maximize its purity and</li>
+				  <li>minimize its production cost</li>
+				  <li>under safety constraints (e.g. T < 1300 K, p < 100 bar in reactor).</li>
+				</ul>
+				The parameters x we can change to achieve these goals are operation parameters of the plant. For example these can be the ratio of the educts, heating power of the reactor, pressures, temperatures, ....
+				Suppose we go through all possible values of x and record the purity, the cost and also look at the safety constraints.
+				Then we will obtain a plot like this:
+				<img src="files/FeasibleDomain.png" alt="Feasible domain" style="display: block; margin-left: auto; margin-right: auto; width: 300px;">
+				What are the "best" points fulfilling the constraints? As said, there can be no unique best point. Suppose we take the most left blue point. It has the lowest cost, but there are allowed (constraints fulfilled) points which have higher quality. And quality may be more important than cost. So, how should we decide on a "best solution"? We can find a reasonable answer to this problem by considering a point in the center of the blue area. Can it be "the best" or "a good" point? Obviously not, because there are points which simultaneously have <strong>both lower cost and higher product quality</strong>.
+				This brings us to the definition of a so-called <span style="color:green">Pareto-optimal point.</span> A point is Pareto-optimal, if going away from the point we cannot become better in all goals, i.e. we become worse in at least one goal.
+				These Pareto-points are the "best compromises" we can make. All other points can be improved in at least one objective without getting worse in the others. In our two-dimensional example, the Pareto-optimal points are shown in red here:
+				<img src="files/FeasibleDomainPareto.png" alt="Feasible domain" style="display: block; margin-left: auto; margin-right: auto; width: 320px;">
+				The goal of Multicriteria Optimization (MCO) is the determination of the set of Pareto points for a given problem. In my research, I work on methods and software for efficient determination of the set of Pareto points in optimization problems from chemical process industry.
+                <p></p>				
+		  </div>
+	  </div>
+  </div>
+</div>
+<div class="footer">
+  Patrick Ludl's website
+</div>
+</body>
+</html>

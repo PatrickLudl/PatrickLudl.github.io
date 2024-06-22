@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Arial, sans-serif; /* Use a sans-serif font */
+}
+.title {
+  margin-bottom: 2em;
+}
+.menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.menu-item {
+  color: gray;
+  display: block;
+  margin: 5px 0;
+  padding: 10px;
+  text-decoration: none;
+  width: 100%;
+  transition: background-color 0.5s ease;
+}
+.menu-item:hover {
+  color: white;
+  background-color: purple;
+}
+.menu-item:active,
+.menu-item.active {
+  color: white !important;
+  background-color: blue !important;
+}
+.content {
+  margin-left: 50px;
+  max-width: 70%;
+}
+.contentsubsection {
+  margin-left: 80px;
+  max-width: 70%;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: lightgray; /* Add a background color to the footer */
+}
+</style>
+</head>
+<body>
+<div class="title">
+  <h3>Patrick Ludl</h3>
+</div>
+<div class="container">
+  <div class="menu">
+    <a href="index.html" class="menu-item">Home</a>
+    <a href="research.html" class="menu-item active">Research</a>
+    <a href="publications_applied.html" class="menu-item">Publications</a>
+    <a href="teaching.html" class="menu-item">Teaching Resources</a>
+    <a href="talks.html" class="menu-item">Talks</a>
+	<a href="software.html" class="menu-item">Software</a>
+    <a href="interests.html" class="menu-item">Other Interests</a>
+  </div>
+  <div class="content">
+      <div class="container">
+		  <div class="menu">
+			<a href="research.html" class="menu-item">Multicriteria Optimization</a>
+			<a href="research_ai.html" class="menu-item active">Artificial Intelligence</a>
+			<a href="research_mathematics.html" class="menu-item">Applied Mathematics</a>
+			<a href="research_neutrino_physics.html" class="menu-item">Neutrino Physics</a>
+			<a href="research_finite_groups.html" class="menu-item">Finite groups</a>
+		  </div>
+		  <div class="contentsubsection">
+				<h4>Artificial Intelligence (Part 2): Literate Programming</h4>
+                <p>The advent of Large Language Models (LLMs) in software developer's everyday lives offers possibilities which can transform the entire field. This, however, is not restricted to Computer Science. For the use as tools in the natural and engineering sciences, mathematical models and algorithms need to be transformed into instructions executable by computers, and therefore also the way we solve research problems in these fields will inevitably change.</p>
+				<p>
+				In my opinion LLMs offer the chance of increasing the quality of software. We must, however, be very careful not to fall into the trap of using these new tools to produce software faster (or even worse: produce more software) rather than improving the code quality. Apart from this chance and risk, there is a chance even more important - the unique chance to improve the <span style="color:green"><em>quality of software development</em></span> itself. In the light of research dependent on algorithm and code development this means the chance to <span style="color:blue"><em>not only increase the quality of research results</em></span> but to <span style="color:blue"><em>increase the quality of the research process</em>.</span>
+				One possible way to do that is based on the concept of literate programming. In the following, I will present my thoughts and give an illustrative example.
+				</p>
+				<p>
+				The term <a href="https://en.wikipedia.org/wiki/Literate_programming" target=_blank>"Literate Programming"</a> was coined by Donald Knuth. For the discussion here, let us focus on a quote from his paper
+                <br/><br/>
+			    D. E. Knuth, <em>Literate Programming</em>
+				<br>
+				The Computer Journal, Volume 27, Issue 2, 1984, Pages 97–111
+				<a href="https://doi.org/10.1093/comjnl/27.2.97" target=_blank>https://doi.org/10.1093/comjnl/27.2.97</a>
+                <br/><br/>
+				<blockquote>
+					<span style="color:green">"Let us change our traditional attitude to the construction of programs. Instead of imagining that our main task is to instruct a <em>computer</em> what to do, let us concentrate rather on explaining to <em>human beings</em> what we want a computer to do."</span>
+				</blockquote>
+				Knuth's idea was to write computer code and its documentation in the same document, in an order easily understandable by humans. Before compiling, the literate program was pre-processed in two steps called weaving (generation of the human readable documentation) and tangling (generation of the computer readable instructions) from the same source (the literate program).
+				</p>
+				<p>
+				By using LLMs as the <span style="color:blue">"translator from human language to computer instructions"</span> one can go a step beyond the original idea of literate programming. In fact, if the LLM is capable of understanding the task it shall solve in the language humans would use to explain the task to <span style="color:purple"><em>other humans</em>,</span> we can <span style="color:green">omit the part of writing source code within the literate program.</span> In the following, I will present this approach by means of an example.
+				</p>
+				<h4>An example for literate programming: Construction of matrix groups</h4>
+				<p>
+				While writing my PhD thesis, I worked a lot on finite groups, in particular on finite subgroups of U(3), the unitary group in three dimensions. These groups are finite groups of unitary 3 x 3-matrices. The simplest unique characterisation of such a group is by giving a set of generators, i.e. a set of elements of the group which generates all group elements by multiplication. What I wanted to do numerically is, given a set of unitary 3 x 3-matrices, determine the order of the generated group and check whether the representation (defined by the matrices) is irreducible. For my thesis (for the paper on the <a href="https://arxiv.org/abs/1006.1479" target=_blank>finite subgrous of U(3) of order smaller than 512</a>) I used this program to verify the group order and irreducibility of representations generated by the computer algebra system <a href="https://www.gap-system.org/" target=_blank>GAP (Groups, Algorithms and Programming).</a>
+				</p>
+				<p>In the following, a literate program to solve this problem is presented. I wrote it in markdown, you can find the <a href="files/Groups.md">markdown code here.</a>
+				Converting the markdown file to html using <a href="https://pandoc.org/">pandoc</a> (pandoc -f markdown --mathml -t html5 -o output.html Groups.md) allows to display it without the need for a markdown extension: <a href="files/LiterateProgramGroups.html" target=_blank>Literate program: Checking the order of a matrix group.</a>
+				Note that for all parts of the literate program I also specified unit tests to be implemented. This helps when checking whether the code generation was correct (and of course also helps in detecting errors in the literate program itself).
+				The markdown file was translated to computer source code in different languages by an LLM (OpenAI GPT 4 Turbo). I tried translation to three different languages:
+				<ul>
+				    <li><strong>Python:</strong> This translation went very smooth, and almost no asking for corrections was necessary. The <a href="files/groups.py">generated code</a> worked out-of-the-box and also the <a href="files/test_groups.py">unit tests</a> passed. The result and run time of the main program is:
+						<blockquote>
+						    The order of the group is 648.
+							<br/>
+							The representation is irreducible: True.
+							<br/>
+							Time taken for computation: 1971.2705 seconds.
+						</blockquote>
+					</li>
+					<li><strong>Julia:</strong> This translation needed some interaction, but was still very easy, despite me having worked with <a href="https://julialang.org/" target=_blank>Julia</a> only very little before. Here you can find the <a href="files/groups.jl">generated Julia code</a>. Executing it gives:
+						<blockquote>
+						    The order of the group is: 648
+							<br/>
+							The representation is irreducible: true
+							<br/>
+							Time needed for the computation: 14.103000164031982 seconds
+						</blockquote>
+					As you can see, the generated Julia code is more than 100 times faster than the python code. I suspect that this at least partly is due to the more efficient check
+					    <blockquote>
+							function isInList(matrix, list; tol=1e-9)
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;for item in list
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if all(abs.(matrix - item) .< tol)
+							<br/>
+						    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;end
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;return false
+							<br/>
+							end
+						</blockquote>
+					compared to the corresponding generated python code
+					    <blockquote>
+							def is_in(matrix, matrices):
+							<br/>
+							&nbsp;&nbsp;&nbsp;&nbsp;return any(matrix.are_numerically_equal(m) for m in matrices)
+						</blockquote>
+					which checks all list elements instead of immediately returning when an equal element has been found.
+					</li>
+					<li><strong>Rust:</strong> Also this translation needed some interaction, but also required not too much interaction with the LLM to make it correct the errors. Here you can find the <a href="files/main.rs">generated Rust code</a>. Executing it gives:
+						<blockquote>
+						    The order of the group is 648
+							<br/>
+							The representation is irreducible: true
+							<br/>
+							Time needed is: 13.5238412s
+						</blockquote>
+					</li>
+				</ul>
+				</p>
+				To summarize: All three code generations worked well. The time needed to generate the code was much less than writing the literate program. And writing the literate program did not take longer than it would have needed to write the code (for <em>one</em> of the languages) directly. But the literate program may serve as the basis to generate code for any language and it is much better understandable by human beings than the computer code. This makes programming a more enjoyable task and allows to concentrate on the actual problem to be solved rather than how to implement it in a specific programming language.
+				<p></p>
+		  </div>
+	  </div>
+  </div>
+</div>
+<div class="footer">
+  Patrick Ludl's website
+</div>
+</body>
+</html>

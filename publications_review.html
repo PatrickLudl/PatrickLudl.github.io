@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Arial, sans-serif; /* Use a sans-serif font */
+}
+.title {
+  margin-bottom: 2em;
+}
+.menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.menu-item {
+  color: gray;
+  display: block;
+  margin: 5px 0;
+  padding: 10px;
+  text-decoration: none;
+  width: 100%;
+  transition: background-color 0.5s ease;
+}
+.menu-item:hover {
+  color: white;
+  background-color: purple;
+}
+.menu-item:active,
+.menu-item.active {
+  color: white !important;
+  background-color: blue !important;
+}
+.content {
+  margin-left: 50px;
+  max-width: 70%;
+}
+.contentsubsection {
+  margin-left: 80px;
+  max-width: 70%;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: lightgray; /* Add a background color to the footer */
+}
+</style>
+</head>
+<body>
+<div class="title">
+  <h3>Patrick Ludl</h3>
+</div>
+<div class="container">
+  <div class="menu">
+    <a href="index.html" class="menu-item">Home</a>
+    <a href="research.html" class="menu-item">Research</a>
+    <a href="publications_applied.html" class="menu-item active">Publications</a>
+    <a href="teaching.html" class="menu-item">Teaching Resources</a>
+    <a href="talks.html" class="menu-item">Talks</a>
+	<a href="software.html" class="menu-item">Software</a>
+    <a href="interests.html" class="menu-item">Other Interests</a>
+  </div>
+  <div class="content">
+      <div class="container">
+		  <div class="menu">
+			<a href="publications_applied.html" class="menu-item">Applied Research</a>
+			<a href="publications_fundamental.html" class="menu-item">Fundamental Research</a>
+			<a href="publications_review.html" class="menu-item active">Review Article</a>
+			<a href="publications_theses.html" class="menu-item">Theses</a>
+			<a href="publications_proceedings.html" class="menu-item">Conference Proceedings</a>
+		  </div>
+		  <div class="contentsubsection">
+				<div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
+					<p style="margin: 0;">W. Grimus and P. O. Ludl,</p>
+					<p style="margin: 0;"><em>Finite flavour groups of fermions</em></p>
+					<p style="margin: 0;">J. Phys. A <em>45</em>, 233001 (2012), <a href="https://doi.org/doi:10.1088/1751-8113/45/23/233001" target="_blank">doi:10.1088/1751-8113/45/23/233001</a>, <a href="https://arxiv.org/abs/1110.6376" target="_blank">[arXiv:1110.6376 [hep-ph]].</a></p>
+				</div>
+		  </div>
+	  </div>
+  </div>
+</div>
+<div class="footer">
+  Patrick Ludl's website
+</div>
+</body>
+</html>

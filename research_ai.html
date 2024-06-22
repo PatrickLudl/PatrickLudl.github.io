@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Arial, sans-serif; /* Use a sans-serif font */
+}
+.title {
+  margin-bottom: 2em;
+}
+.menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.menu-item {
+  color: gray;
+  display: block;
+  margin: 5px 0;
+  padding: 10px;
+  text-decoration: none;
+  width: 100%;
+  transition: background-color 0.5s ease;
+}
+.menu-item:hover {
+  color: white;
+  background-color: purple;
+}
+.menu-item:active,
+.menu-item.active {
+  color: white !important;
+  background-color: blue !important;
+}
+.content {
+  margin-left: 50px;
+  max-width: 70%;
+}
+.contentsubsection {
+  margin-left: 80px;
+  max-width: 70%;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: lightgray; /* Add a background color to the footer */
+}
+</style>
+</head>
+<body>
+<div class="title">
+  <h3>Patrick Ludl</h3>
+</div>
+<div class="container">
+  <div class="menu">
+    <a href="index.html" class="menu-item">Home</a>
+    <a href="research.html" class="menu-item active">Research</a>
+    <a href="publications_applied.html" class="menu-item">Publications</a>
+    <a href="teaching.html" class="menu-item">Teaching Resources</a>
+    <a href="talks.html" class="menu-item">Talks</a>
+	<a href="software.html" class="menu-item">Software</a>
+    <a href="interests.html" class="menu-item">Other Interests</a>
+  </div>
+  <div class="content">
+      <div class="container">
+		  <div class="menu">
+			<a href="research.html" class="menu-item">Multicriteria Optimization</a>
+			<a href="research_ai.html" class="menu-item active">Artificial Intelligence</a>
+			<a href="research_mathematics.html" class="menu-item">Applied Mathematics</a>
+			<a href="research_neutrino_physics.html" class="menu-item">Neutrino Physics</a>
+			<a href="research_finite_groups.html" class="menu-item">Finite groups</a>
+		  </div>
+		  <div class="contentsubsection">
+				<h4>Artificial Intelligence</h4>
+			    The term <em>Artificial Intelligence</em> is used in very large variety of contexts. In my work I mainly use two kinds of artificial intelligence techniques:
+				<ul>
+				    <li>Artificial Intelligence techniques for classification and regression. These methods are frequently subsumed under the term <em>Machine Learning</em>. Below I will describe how such techniques can be used to improve learning about the behavior of systems modelled by time-expensive rigorous computer simulations.</li>
+					<li>Generative AI, which recently became very popular. My main interest in this direction is the use of these tools to support writing better and clearer computer programs. My thoughts on this topic are summarized <a href="literate_programming.html">on this page.</a></li>
+				</ul>
+				The method I describe in the following is again motivated by use cases from chemical process engineering. Consider a production process for which there is a "rigorous" model (i.e. a mathematical model of the physical and chemical processes happening in the plant). Such a model is called a chemical flowsheet (because it models the flows and reactions of substances along the plant through all process units), and the numerical simulation of the plant is called a <em>flowsheet simulation</em>.
+				Mathematically, the whole process can be described a one <span style="color:green">large set of non-linear equations.</span>
+				<p style="color:blue">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <mo>f⁡</mo> <!-- This is the function application character -->
+				  <mo>(</mo> <!-- This is the left parenthesis -->
+				  <mi>x</mi>
+				  <mo>)</mo> <!-- This is the right parenthesis -->
+				  <mo>=</mo>
+				  <mn>0</mn>
+				</math>
+                s. t.
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <mi>g</mi>
+				  <mo>⁡</mo> <!-- This is the function application character -->
+				  <mo>(</mo> <!-- This is the left parenthesis -->
+				  <mi>x</mi>
+				  <mo>)</mo> <!-- This is the right parenthesis -->
+				  <mo>≥</mo> <!-- This is the "greater than or equal to" symbol -->
+				  <mn>0</mn>
+				</math>, 
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <mi>h</mi>
+				  <mo>⁡</mo> <!-- This is the function application character -->
+				  <mo>(</mo> <!-- This is the left parenthesis -->
+				  <mi>x</mi>
+				  <mo>)</mo> <!-- This is the right parenthesis -->
+				  <mo>=</mo>
+				  <mn>s</mn>
+				</math>.</p>
+				The vector x here collects <em>all</em> quantities needed to describe the process. For a realistic production plant this can be thousands of quantities (temperatures, pressures, compositions, flowrates, temperature-dependent thermodynamic properties like activity coefficients,...).
+				Moreover, since the equations are non-linear, they can be very hard to solve. Hence, flowsheets simulations can be very time-intensive.
+				<br/>
+				The goal is now to learn something about the behavior of the process. And in that respect, we are usually only interested in what happens when we change a very small subset of parameters. For example, we may be interested how the product purities and the electric and heat duties needed for operation change when we change the composition of the input stream to a reactor. Then in the simulation we need to vary the values of a small set of quantities s (the so-called specifications) and observe the desired quantities. Imposing these specifications in the mathematical description above is encoded in
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <mi>h</mi>
+				  <mo>⁡</mo> <!-- This is the function application character -->
+				  <mo>(</mo> <!-- This is the left parenthesis -->
+				  <mi>x</mi>
+				  <mo>)</mo> <!-- This is the right parenthesis -->
+				  <mo>=</mo>
+				  <mn>s</mn>
+				</math>,
+				which in words means: The (maybe thousands of) parameters x must be chosen such that the handful of specified quantities have the values s we want them to have.
+				What we could do now is to vary the specified values s in the interesting range and to record the quantities we are interested in (e.g. product purities, heat duties, quantities for evaluating safety,...). This, however, cannot be done in a brute-force way, since for that the simulations are much too time intensive. Moreover, the solution of the equations can fail numerically for some sets of specifications. Such failed simulations are usually even more time intensive than the successful ones. A priori we do not know for which specification values s this will be the case.
+				<p></p>
+				In my research, I work on algorithms using different machine learning models (classification and regression) which allow a very efficient exploration of the behavior of chemical production processes by rigorous simulations. Summarized in one sentence: We generate sets of simulations by subsequently doing rigorous simulations and training machine learning models to predict where the next rigorous simulations may be most useful for learning about the process.
+				For further information please see the papers
+                <ul>
+				    <li>
+						<p style="margin: 0;">P. O. Ludl, R. Heese, J. Höller, N. Asprion and M. Bortz</p>
+						<p style="margin: 0;"><em>Using machine learning models to explore the solution space of large nonlinear systems underlying flowsheet simulations with constraints</em></p>
+						<p style="margin: 0;">Front. Chem. Sci. Eng. <em>16</em>, 183 (2022), <a href="https://doi.org/doi:10.1007/s11705-021-2073-7" target="_blank">doi:10.1007/s11705-021-2073-7</a>.</p>
+					</li>
+				    <li>
+						<p style="margin: 0;">J. Höller, M. Bubel, R. Heese, P. O. Ludl, P. Schwartz, J. Schwientek, N. Asprion, M. Wlotzka and M. Bortz</p>
+						<p style="margin: 0;"><em>Adaptively exploring the feature space of flowsheets</em></p>
+						<p style="margin: 0;">AIChE Journal (2024) e18404, <a href="https://doi.org/doi:10.1002/aic.18404" target="_blank">doi:10.1002/aic.18404</a></p>
+					</li>
+				</ul>
+                <p></p>				
+		  </div>
+	  </div>
+  </div>
+</div>
+<div class="footer">
+  Patrick Ludl's website
+</div>
+</body>
+</html>

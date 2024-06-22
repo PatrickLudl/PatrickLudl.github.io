@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Arial, sans-serif; /* Use a sans-serif font */
+}
+.title {
+  margin-bottom: 2em;
+}
+.menu {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.menu-item {
+  color: gray;
+  display: block;
+  margin: 5px 0;
+  padding: 10px;
+  text-decoration: none;
+  width: 100%;
+  transition: background-color 0.5s ease;
+}
+.menu-item:hover {
+  color: white;
+  background-color: purple;
+}
+.menu-item:active,
+.menu-item.active {
+  color: white !important;
+  background-color: blue !important;
+}
+.content {
+  margin-left: 50px;
+  max-width: 70%;
+}
+.contentsubsection {
+  margin-left: 80px;
+  max-width: 70%;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: lightgray; /* Add a background color to the footer */
+}
+</style>
+
+<style>
+table {
+	border-collapse: separate;
+	border-spacing: 10px; /* Adjust for margin between cells */
+}
+td {
+	text-align: center;
+}
+img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
+
+</head>
+<body>
+<div class="title">
+  <h3>Patrick Ludl</h3>
+</div>
+<div class="container">
+  <div class="menu">
+    <a href="index.html" class="menu-item">Home</a>
+    <a href="research.html" class="menu-item">Research</a>
+    <a href="publications_applied.html" class="menu-item">Publications</a>
+    <a href="teaching.html" class="menu-item">Teaching Resources</a>
+    <a href="talks.html" class="menu-item">Talks</a>
+	<a href="software.html" class="menu-item">Software</a>
+    <a href="interests.html" class="menu-item active">Other Interests</a>
+  </div>
+  <div class="content">
+      <div class="container">
+		  <div class="menu">
+			<a href="interests.html" class="menu-item active">Photography</a>
+			<a href="mathematical_art.html" class="menu-item">Mathematical Art</a>
+		  </div>
+		  <div class="contentsubsection">
+		        <h4>Photography</h4>
+				<div>
+				<table>
+					<tr>
+						<td><a href="files\photos\Haidbrunnen.JPG" target="_blank"><img src="files\photos\Haidbrunnen.JPG" alt="Haidbrunnen" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://de.wikipedia.org/wiki/Liste_der_Stra%C3%9Fennamen_von_Wiener_Neustadt" target="_blank">Haidbrunnen (Wr. Neustadt, Austria)</a></td>
+						<td><a href="files\photos\Humbergturm.JPG" target="_blank"><img src="files\photos\Humbergturm.JPG" alt="Humbergturm in Winter" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Humberg_Tower" target="_blank">Humbergturm (Kaiserslautern, Germany)</a></td>
+					</tr>
+					<tr>
+						<td><a href="files\photos\ice.jpg" target="_blank"><img src="files\photos\ice.jpg" alt="Icy winter day" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Ice" target="_blank">Ice on a sign (Hohe Wand, Austria)</a></td>
+						<td><a href="files\photos\winter.jpg" target="_blank"><img src="files\photos\winter.jpg" alt="Icy winter day" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Hohe_Wand_(mountain)" target="_blank">Winter day (Hohe Wand, Austria)</a></td>
+					</tr>
+					<tr>
+						<td><a href="files\photos\eichhoernchen.jpg" target="_blank"><img src="files\photos\eichhoernchen.jpg" alt="Squirrel" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br></td>
+						<td><br></td>
+					</tr>
+				</table>
+				</div>
+				<h4>Astrophotography</h4>
+				<div>
+				<table>
+					<tr>
+						<td><a href="files\photos\lunar_eclipse.jpg" target="_blank"><img src="files\photos\lunar_eclipse.jpg" alt="Lunar Eclipse" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Lunar_eclipse" target="_blank">Total Lunar Eclipse</a></td>
+						<td><a href="files\photos\M31_small.jpg" target="_blank"><img src="files\photos\M31_small.jpg" alt="M31" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Andromeda_Galaxy" target="_blank">M31</a></td>
+					</tr>
+					<tr>
+						<td><a href="files\photos\M31.jpg" target="_blank"><img src="files\photos\M31.jpg" alt="M31" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Andromeda_Galaxy" target="_blank">M31</a></td>
+						<td><a href="files\photos\M51.jpg" target="_blank"><img src="files\photos\M51.jpg" alt="M51" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Whirlpool_Galaxy" target="_blank">M51</a></td>
+					</tr>
+					<tr>
+						<td><a href="files\photos\MilkyWay.jpg" target="_blank"><img src="files\photos\MilkyWay.jpg" alt="Milky Way" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Milky_Way" target="_blank">Milky Way</a></td>
+						<td><a href="files\photos\Venus_transit.jpg" target="_blank"><img src="files\photos\Venus_transit.jpg" alt="Venus Transit" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/2012_transit_of_Venus" target="_blank">Venus Transit (05.06.2012)</a></td>
+					</tr>
+					<tr>
+						<td><a href="files\photos\Plejaden.jpg" target="_blank"><img src="files\photos\Plejaden.jpg" alt="The Pleiades" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Pleiades" target="_blank">M45</a></td>
+						<td><a href="files\photos\Moon.jpg" target="_blank"><img src="files\photos\Moon.jpg" alt="Moon" style="display: block; margin-left: auto; margin-right: auto; height: 200px;"></a><br><a href="https://en.wikipedia.org/wiki/Moon" target="_blank">The Moon</a></td>
+					</tr>
+				</table>
+				</div>
+		  </div>
+	  </div>
+  </div>
+</div>
+<div class="footer">
+  Patrick Ludl's website
+</div>
+</body>
+</html>
