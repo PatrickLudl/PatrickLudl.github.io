@@ -39,6 +39,10 @@ body {
   margin-left: 50px;
   max-width: 70%;
 }
+.contentsubsection {
+  margin-left: 80px;
+  max-width: 70%;
+}
 .container {
   display: flex;
   flex-direction: row;
@@ -52,6 +56,7 @@ body {
   background-color: lightgray; /* Add a background color to the footer */
 }
 </style>
+
 </head>
 <body>
 <div class="title">
@@ -68,22 +73,22 @@ body {
     <a href="interests.html" class="menu-item">Other Interests</a>
   </div>
   <div class="content">
-    <h4>Software</h4>
-	<div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
-		As mentioned in the section on research in <a href="research_mathematics.html">applied mathematics</a>, I worked on the development on a normal form for bases of finite-dimensional vector spaces. The <a href="https://arxiv.org/abs/2306.10415" target="_blank">paper on this topic</a> contains a Python implementation for the computation of the normal form.
-	</div>
-	<div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
-	    Moreover, I am very much interested in the use of Large Language Models as means to improve the quality of code and to improve the quality of software development itself. A site devoted to this topic, including an example, can be found <a href="literate_programming.html">here.</a>
-		My main interest in this respect is the textual (and graphical) description of algorithms, which can then be translated to computer source code by LLMs. Some nice examples can be found in the following:
-		<ul>
-		    <li><a href="literate_programming.html" target=_blank>An algorithm to explicitly construct a finite matrix group.</a></li>
-			<li><a href="sieve_of_atkin.html" target=_blank>The Sieve of Atkin for computing the prime numbers up to N.</a></li>
-		</ul>
-	</div>
+				<h4>The Sieve of Atkin</h4>
+				<p>The Sieve of Atkin and Bernstein is a modern algorithm to compute the prime numbers smaller than N. I wrote a literate program implementing it, following the Wikipedia article <a href="https://en.wikipedia.org/wiki/Sieve_of_Atkin" target=_blank>Sieve of Atkin</a>.
+				</p>
+				The literate program for the <a href="files/SieveOfAtkin.html" target=_blank>Sieve</a> can be found here as html file. The original markdown code can be downloaded <a href="files/SieveOfAtkin.md">here</a>.
+				The markdown file was translated to Julia code with an LLM (Open AI GPT4o). The generated code can be viewed <a href="files/sieve_jl.html" target=_blank>here in html</a> and can be downloaded here as <a href="files/sieve.jl">source code.</a>
+				On my computer the program needs about 11 seconds to compute the prime numbers smaller than
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <msup>
+					<mn>10</mn>
+					<mn>9</mn>
+				  </msup>
+				</math>.
   </div>
 </div>
 <div class="footer">
-    Patrick Ludl's website
+  Patrick Ludl's website
 </div>
 </body>
 </html>
